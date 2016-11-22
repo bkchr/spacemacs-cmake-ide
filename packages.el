@@ -78,6 +78,10 @@ Each entry is either:
   (add-hook 'c-mode-hook 'company-mode)
   (add-hook 'irony-mode-hook 'my-irony-mode-hook)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options))
+  
+(defun spacemacs-cmake-ide/post-init-company-irony ()
+  (eval-after-load 'company
+  '(add-to-list 'company-backends 'company-irony)))
 
 ;; replace the `completion-at-point' and `complete-symbol' bindings in
 ;; irony-mode's buffers by irony-mode's function
