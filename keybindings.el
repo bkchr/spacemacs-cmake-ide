@@ -28,5 +28,6 @@
     "g I" 'rtags-imenu
     "g T" 'rtags-taglist
     "g h" 'rtags-print-class-hierarchy
-    "g a" 'rtags-print-source-arguments))
+    "g a" 'rtags-print-source-arguments
+    "b" 'cmake-ide-compile))
 
