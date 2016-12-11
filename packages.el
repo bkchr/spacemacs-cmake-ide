@@ -30,7 +30,8 @@
 ;;; Code:
 
 (defconst spacemacs-cmake-ide-packages
-  '(cmake-ide company-irony irony cmake-font-lock whitespace)
+  '(cmake-ide company-irony irony cmake-font-lock company-irony-c-headers 
+  flycheck)
   "The list of Lisp packages required by the cmake-ide layer.
 
 Each entry is either:
@@ -67,9 +68,12 @@ Each entry is either:
 (defun spacemacs-cmake-ide/init-company-irony ()
   (use-package company-irony))
 
+(defun spacemacs-cmake-ide/init-company-irony-c-headers ()
+  (use-package company-irony-c-headers))
+
 (defun spacemacs-cmake-ide/post-init-cmake-ide ()
-  (require 'rtags)
-  (cmake-ide-setup))
+  (with-eval-after-load 'rtags
+    (cmake-ide-setup)))
 
 (defun spacemacs-cmake-ide/post-init-irony ()
   (add-hook 'c++-mode-hook 'irony-mode)
@@ -83,6 +87,10 @@ Each entry is either:
   (eval-after-load 'company
   '(add-to-list 'company-backends 'company-irony)))
 
+(defun spacemacs-cmake-ide/post-init-company-irony-c-headers ()
+  (eval-after-load 'company
+    '(add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+
 ;; replace the `completion-at-point' and `complete-symbol' bindings in
 ;; irony-mode's buffers by irony-mode's function
 (defun my-irony-mode-hook ()
@@ -93,15 +101,9 @@ Each entry is either:
 
 (defun spacemacs-cmake-ide/init-cmake-font-lock ()
   (use-package cmake-font-lock))
-  
-(defun spacemacs-cmake-ide/init-whitespace ()
-  (use-package cmake-ide))
 
-(defun spacemacs-cmake-ide/post-init-whitespace ()
-    (require 'whitespace)
-    (setq whitespace-line-column 80)
-    (setq whitespace-style '(face lines-tail))
-    (add-hook 'c++-mode-hook 'whitespace-mode)
-    (add-hook 'c-mode-hook 'whitespace-mode))
+(defun spacemacs-cmake-ide/post-init-flycheck ()
+  (dolist (mode '(c-mode c++-mode))
+    (spacemacs/add-flycheck-hook mode)))
 
 ;;; packages.el ends here

@@ -29,5 +29,8 @@
     "g T" 'rtags-taglist
     "g h" 'rtags-print-class-hierarchy
     "g a" 'rtags-print-source-arguments
-    "b" 'cmake-ide-compile))
+    "b" 'cmake-ide-compile
+    "s" 'projectile-find-other-file
+    "r" 'srefactor-refactor-at-point
+    "f" 'semantic-ia-fast-jump))
 
